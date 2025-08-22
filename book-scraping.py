@@ -42,11 +42,20 @@ print('###################################')
 
 tabla_paises = soup.find_all('table')[0]
 paises = tabla_paises.find_all('tr')
+datos = [] #Colección para almacenar los datos
 for pais in paises:
     ps = pais.find_all(['th'])
     data = [p.get_text(strip=True) for p in ps]
     print(data)
+    if data:
+      datos.append(data)  
 
+#Los datos extraídos se guardan en un archivo csv
+df = pd.DataFrame(datos)
+df.to_csv('paises.csv', index=False, header=False)
+
+with open('paises.json', 'w', encoding='utf-8') as f:
+    json.dump(datos, f, ensure_ascii=False, indent=2)
 
 time.sleep(2)
 
