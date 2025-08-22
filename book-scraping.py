@@ -41,14 +41,22 @@ print('###################################')
 # Información de tablas
 
 tabla_paises = soup.find_all('table')[0]
-paises = tabla_paises.find_all('tr')
+paises_nombres = tabla_paises.find_all('tr')
+
 datos = [] #Colección para almacenar los datos
-for pais in paises:
-    ps = pais.find_all(['th'])
-    data = [p.get_text(strip=True) for p in ps]
-    print(data)
-    if data:
-      datos.append(data)  
+for paises in paises_nombres:
+    fila = [] # Lista para almacenar los nombres de los países
+    pais = paises.find_all(['th'])
+    for filaP in pais:
+        span = filaP.find('span')
+        if span:
+            fila.append(span.get_text(strip=True))
+
+        if fila:
+            datos.append(fila)
+# Imprimir los datos extraídos
+for fila in datos:
+    print(fila)
 
 #Los datos extraídos se guardan en un archivo csv
 df = pd.DataFrame(datos)
