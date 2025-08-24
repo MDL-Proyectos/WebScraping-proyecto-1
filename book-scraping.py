@@ -3,13 +3,20 @@ import requests as req
 from bs4 import BeautifulSoup
 import time
 import json
+import sys
 
 URL_BASE = 'https://es.wikipedia.org/wiki/Estado_miembro_de_las_Naciones_Unidas'
 
 # 1. Obtención del HTML
 info_obtenida = req.get(URL_BASE)
 
-html_obtenido = info_obtenida.text
+print("Status Code:", info_obtenida.status_code)  # Para depuración
+
+if info_obtenida.status_code == 200:  # Verifica que la solicitud fue exitosa
+    html_obtenido = info_obtenida.text
+else:
+    print(f"Error al obtener la página: {info_obtenida.status_code}")
+    sys.exit()
 
 # 2. Parseo del HTML
 soup = BeautifulSoup(html_obtenido, "html.parser")
