@@ -40,30 +40,58 @@ print('###################################')
 
 # Información de tablas
 
-tabla_paises = soup.find_all('table')[0]
-paises_nombres = tabla_paises.find_all('tr')
+tabla = soup.find_all('table')[0]
+tabla_paises = tabla.find_all('tr')
+# ...existing code...
 
-datos = [] #Colección para almacenar los datos
-for paises in paises_nombres:
-    fila = [] # Lista para almacenar los nombres de los países
-    pais = paises.find_all(['th'])
-    for filaP in pais:
-        span = filaP.find('span')
-        if span:
-            fila.append(span.get_text(strip=True))
+tabla = soup.find_all('table')[0]
+tabla_paises = tabla.find_all('tr')
 
-        if fila:
-            datos.append(fila)
+datos = []
+
+for fila in tabla_paises:
+    # Extraer el nombre del país del primer th
+    th = fila.find('th')
+    if th:
+         span = th.find('span')
+         if span:
+                nombre = span.get_text(strip=True)
+    else:
+        continue  # Si no hay th, no es una fila válida
+
+    # Extraer la fecha de admisión del primer td (o segundo td si el primero no es fecha)
+    tds = fila.find_all('td')
+    fecha = ""
+    if tds:
+        # Busca el primer td que tenga una fecha (usualmente contiene un número y "de")
+        for td in tds:
+            texto_td = td.get_text(strip=True)
+            #Como hay registros que su segunda columna no es fecha, se verifica que contenga un mes
+            if any(mes in texto_td for mes in ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"]):
+                fecha = texto_td
+                break
+        if not fecha:
+            fecha = tds[0].get_text(strip=True)  # Si no encuentra, toma el primero dato
+    else:
+        fecha = ""
+
+    # Solo agrega si hay nombre y fecha
+    if nombre and fecha:
+        datos.append({"pais": nombre, "fecha": fecha})
 # Imprimir los datos extraídos
-for fila in datos:
-    print(fila)
+#for fila in datos:
+  #  print(fila)
 
 #Los datos extraídos se guardan en un archivo csv
 df = pd.DataFrame(datos)
 df.to_csv('paises.csv', index=False, header=False)
 
+# Guardar en JSON
 with open('paises.json', 'w', encoding='utf-8') as f:
     json.dump(datos, f, ensure_ascii=False, indent=2)
+
+# ...existing code...
+
 
 time.sleep(2)
 
