@@ -13,7 +13,7 @@ Extraer información estructurada sobre los países miembros de la ONU desde Wik
 - time (para respetar la infraestructura del sitio)
 
 ## 📦 Instalación
-Asegurate de tener Python 3 instalado. Luego, instalá las dependencias necesarias:
+Es necesario de tener Python 3 instalado. También instalar las siguientes dependencias necesarias:
 
 ```bash
 pip install requests beautifulsoup4
@@ -36,8 +36,9 @@ Este proyecto respeta las buenas prácticas de scraping:
 
 ## 📁 Estructura del repositorio
 ```
-├── scraping_onu.py         # Script principal de scraping
-├── estados_miembros.csv    # Archivo generado con los datos extraídos
+├── book-scraping.py         # Script principal de scraping
+├── paises.csv    # Archivo generado con los datos extraídos en CSV
+├── paises.json    # Archivo generado con los datos extraídos en JSON
 ├── README.md               # Documentación del proyecto
 ```
 
