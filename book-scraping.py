@@ -14,28 +14,6 @@ html_obtenido = info_obtenida.text
 # 2. Parseo del HTML
 soup = BeautifulSoup(html_obtenido, "html.parser")
 
-# Obtenemos una sección del HTML, filtrando por class
-#h2_all = soup.find_all('div', class_="mw-heading mw-heading2")
-#print(h2_all)
-
-# Iterar sobre el objeto
-#for seccion in h2_all:
-#  print('h2: ', seccion.text)
-
-# Se quitan los espacios innecesarios
-#for seccion in h2_all:
-#  print(seccion.get_text(strip=True))
-
-print('###################################')  
-
-# Todas las etiquetas que tengan el atributo "src"
-#src_todos = soup.find_all(src=True)
-#for elemento in src_todos:
-#  if elemento['src'].endswith(".jpg"):
-#    print(elemento)
-
-# Pausa de 2 segundos entre cada solicitud para evitar sobre cargar el servidor
-
 print('###################################')  
 
 # Información de tablas
@@ -82,6 +60,8 @@ for fila in tabla_paises:
 #for fila in datos:
   #  print(fila)
 
+print('###################################')  
+
 #Los datos extraídos se guardan en un archivo csv
 df = pd.DataFrame(datos)
 df.to_csv('paises.csv', index=False, header=False)
@@ -90,8 +70,17 @@ df.to_csv('paises.csv', index=False, header=False)
 with open('paises.json', 'w', encoding='utf-8') as f:
     json.dump(datos, f, ensure_ascii=False, indent=2)
 
-# ...existing code...
+print('###################################')  
 
+#extraigo las imagenes de las banderas
+imagenes = []
+for img in soup.find_all('img'):
+    src = img.get('src')
+    if src and "flag" in src.lower(): #solo extraigo aquellas que sean banderas
+        imagenes.append(src)
+for imagen in imagenes:
+    print("*: ", imagen)
 
+# Pausa de 2 segundos entre cada solicitud para evitar sobre cargar el servidor
 time.sleep(2)
 
