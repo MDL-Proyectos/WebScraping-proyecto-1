@@ -16,7 +16,7 @@ Extraer información estructurada sobre los países miembros de la ONU desde Wik
 Es necesario de tener Python 3 instalado. También instalar las siguientes dependencias necesarias:
 
 ```bash
-pip install requests beautifulsoup4
+pip install requests beautifulsoup4 lxml pandas
 ```
 
 ## ▶️ Ejecución

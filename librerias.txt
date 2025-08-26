@@ -1,4 +1,4 @@
-import pandas as pd
+import pandas as pd #pip install lxml
 import requests as req
 from bs4 import beautifulsoup4
 import time
