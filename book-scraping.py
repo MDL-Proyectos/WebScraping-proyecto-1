@@ -8,7 +8,10 @@ import sys
 URL_BASE = 'https://es.wikipedia.org/wiki/Estado_miembro_de_las_Naciones_Unidas'
 
 # 1. Obtención del HTML
-info_obtenida = req.get(URL_BASE)
+headers = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36"
+}
+info_obtenida = req.get(URL_BASE, headers=headers)
 
 print("Status Code:", info_obtenida.status_code)  # Para depuración
 
